@@ -1,10 +1,32 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/bloc_provider.dart';
 import 'package:flutter_application/second.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(MyApp());
+  FlutterError.onError = (FlutterErrorDetails details) {
+    Zone.current.handleUncaughtError(details.exception, details.stack!);
+  };
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("error"),
+      ),
+      body: Center(
+        child: Text("${details.exceptionAsString()}"),
+      ),
+    );
+  };
+  runZonedGuarded(() {
+    runApp(MyApp());
+  }, (Object error, StackTrace stack) {
+    print("error:${error.toString()}");
+    print("stack:${stack.toString()}");
+  },
+      zoneSpecification:
+          ZoneSpecification(print: (self, parent, zone, line) {}));
 }
 
 class MyApp extends StatelessWidget {
