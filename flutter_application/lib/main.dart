@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/bloc_provider.dart';
 import 'package:flutter_application/second.dart';
+import 'package:flutter_application/size_utils.dart';
+import 'package:flutter_application/test_size_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SizeUtils.init(context);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -63,6 +66,16 @@ class MyHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: TextButton(
+                    child: Text("go size test"),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SizeTestPage()));
+                    },
+                  ),
+                ),
                 Text(
                   "$count",
                   style: TextStyle(fontSize: 24.0),
